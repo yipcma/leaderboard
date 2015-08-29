@@ -42,6 +42,25 @@ if (Meteor.isClient) {
           score: -5
         }
       });
+    },
+    'click .removeplayer': function() {
+      var selectedPlayer = Session.get("selectedPlayer");
+      if(confirm("Confirm to delete the player.") === true){
+              PlayersList.remove(selectedPlayer);
+      }
+    }
+  });
+
+  Template.addPlayerForm.events({
+    'submit form': function(event) {
+      event.preventDefault();
+      var playername = event.target.playername.value;
+      var initscore = event.target.initscore.value;
+      PlayersList.insert({
+        name: playername,
+        score: initscore
+      });
+      event.target.playername.value = "";
     }
   })
 }
