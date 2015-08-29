@@ -3,9 +3,12 @@
 </head>
 
 <body>
+  {{> loginButtons}}
   <h1>Leaderboard</h1>
   {{> leaderboard}}
+  {{#if currentUser}}
   {{> addPlayerForm}}
+  {{/if}}
 </body>
 
 <template name="leaderboard">

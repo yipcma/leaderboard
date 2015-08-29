@@ -3,7 +3,10 @@ PlayersList = new Mongo.Collection('players');
 if (Meteor.isClient) {
   Template.leaderboard.helpers({
     player: function() {
-      return PlayersList.find({}, {
+      var currentId = Meteor.userId();
+      return PlayersList.find({
+        createdBy: currentId
+      }, {
         sort: {
           score: -1,
           name: 1
@@ -45,8 +48,8 @@ if (Meteor.isClient) {
     },
     'click .removeplayer': function() {
       var selectedPlayer = Session.get("selectedPlayer");
-      if(confirm("Confirm to delete the player.") === true){
-              PlayersList.remove(selectedPlayer);
+      if (confirm("Confirm to delete the player.") === true) {
+        PlayersList.remove(selectedPlayer);
       }
     }
   });
@@ -55,10 +58,12 @@ if (Meteor.isClient) {
     'submit form': function(event) {
       event.preventDefault();
       var playername = event.target.playername.value;
-      var initscore = event.target.initscore.value;
+      var initscore = Number(event.target.initscore.value);
+      var currentId = Meteor.userId();
       PlayersList.insert({
         name: playername,
-        score: initscore
+        score: initscore,
+        createdBy: currentId
       });
       event.target.playername.value = "";
     }
