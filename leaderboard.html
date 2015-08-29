@@ -3,7 +3,7 @@
 </head>
 
 <body>
-  <h1>Leaderboard</h1>
+  <h1>Leaderboard</h1> 
   {{> leaderboard}}
 </body>
 
@@ -11,6 +11,11 @@
   <ul>
     {{#each player}}
     <li class="player {{selectedClass}}">{{name}}: {{score}}</li>
-    {{/each}}
+    {{/each}} 
+    {{#if selectedPlayer}}
+    <input type="button" class="increment" value="Give 5 pts" />
+    <input type="button" class="decrement" value="Remove 5 pts" />
+    <li>The selected player is {{selectedPlayer.name}}</li>
+    {{/if}}
   </ul>
 </template>
