@@ -12,23 +12,27 @@
 </body>
 
 <template name="leaderboard">
-  <ul>
+  <div class="ui list">
     {{#each player}}
-    <li class="player {{selectedClass}}">{{name}}: {{score}}</li>
+    <div class="item player {{selectedClass}}">{{name}}: {{score}}</div>
     {{/each}} 
+  </div>
     {{#if selectedPlayer}}
-    <input type="button" class="increment" value="Give 5 pts" />
-    <input type="button" class="decrement" value="Remove 5 pts" />
-    <input type="button" class="removeplayer" value="remove selected player"/>
-    <li>The selected player is {{selectedPlayer.name}}</li>
+    <div class="ui buttons">
+    <button class="ui button increment">+5</button>
+    <button class="ui button decrement">-5</button>
+    <button class="ui button removeplayer">delete</button>
+    </div>
+    The selected player is {{selectedPlayer.name}}
     {{/if}}
-  </ul>
 </template>
 
 <template name="addPlayerForm">
-  <form>
-    <input type="text" name="playername"/>
+  <form class="ui form">
+    <div class="fields">
+    <input type="text" name="playername" placeholder="Player Name"/>
     <input type="number" name="initscore"/>
-    <input type="submit" value="Add Player"/>
-  </form>
+    <button class="ui button" type="submit">Add Player</button>
+    </div>
+    </form>
 </template>
