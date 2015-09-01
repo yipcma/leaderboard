@@ -25,7 +25,8 @@ if (Meteor.isServer) {
       });
     },
     remove: function(selectedPlayer) {
-      PlayersList.remove(selectedPlayer);
+      var currentId = Meteor.userId();
+      PlayersList.remove({_id: selectedPlayer, createdBy: currentId});
     }
   })
 }
