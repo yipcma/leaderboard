@@ -8,6 +8,8 @@
   {{> leaderboard}}
   {{#if currentUser}}
   {{> addPlayerForm}}
+  <h2>Auto Form below</h2>
+  {{> testForm}}
   {{/if}}
 </body>
 
@@ -35,4 +37,8 @@
     <button class="ui button" type="submit">Add Player</button>
     </div>
     </form>
+</template>
+
+<template name="testForm">
+  {{> quickForm collection="PlayersList" id="insertTestForm" type="insert"}}
 </template>

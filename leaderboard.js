@@ -1,4 +1,20 @@
-PlayersList = new Mongo.Collection('players');
+PlayersList.attachSchema(new SimpleSchema({
+  name: {
+    type: String,
+    label: "Name",
+    max: 200
+  },
+  score: {
+    type: Number,
+    label: "Score",
+    min: 0
+  },
+  createdBy: {
+    type: String,
+    autoValue: function(){return this.userId},
+    autoform: {omit: true}
+  }
+}));
 
 if (Meteor.isServer) {
   Meteor.publish("thePlayers", function() {
