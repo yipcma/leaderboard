@@ -48,6 +48,10 @@ if (Meteor.isServer) {
 }
 
 if (Meteor.isClient) {
+  Meteor.startup(function() {
+  AutoForm.setDefaultTemplate("semanticUI");
+});
+
   Meteor.subscribe("thePlayers");
 
   Template.leaderboard.helpers({
