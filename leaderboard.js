@@ -25,14 +25,6 @@ if (Meteor.isServer) {
   });
 
   Meteor.methods({
-    insert: function(playername, initscore) {
-      var currentId = Meteor.userId();
-      PlayersList.insert({
-        name: playername,
-        score: initscore,
-        createdBy: currentId
-      });
-    },
     update: function(selectedPlayer, increment) {
       PlayersList.update(selectedPlayer, {
         $inc: {
@@ -96,15 +88,4 @@ if (Meteor.isClient) {
       }
     }
   });
-
-  Template.addPlayerForm.events({
-    'submit form': function(event) {
-      event.preventDefault();
-      var playername = event.target.playername.value;
-      var initscore = Number(event.target.initscore.value);
-      Meteor.call("insert", playername, initscore)
-      event.target.playername.value = "";
-      event.target.initscore.value = "";
-    }
-  })
 }

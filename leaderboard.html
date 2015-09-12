@@ -7,8 +7,6 @@
   <h1>Leaderboard</h1>
   {{> leaderboard}}
   {{#if currentUser}}
-  {{> addPlayerForm}}
-  <h2>Auto Form below</h2>
   {{> testForm}}
   {{/if}}
 </body>
@@ -27,16 +25,6 @@
     </div>
     The selected player is {{selectedPlayer.name}}
     {{/if}}
-</template>
-
-<template name="addPlayerForm">
-  <form class="ui form">
-    <div class="fields">
-    <input type="text" name="playername" placeholder="Player Name"/>
-    <input type="number" name="initscore"/>
-    <button class="ui button" type="submit">Add Player</button>
-    </div>
-    </form>
 </template>
 
 <template name="testForm">
