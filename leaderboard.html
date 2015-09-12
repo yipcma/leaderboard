@@ -4,29 +4,36 @@
 
 <body>
   {{> loginButtons}}
-  <h1>Leaderboard</h1>
-  {{> leaderboard}}
-  {{#if currentUser}}
-  {{> testForm}}
-  {{/if}}
+  <h1>Leaderboard</h1> 
+  {{> leaderboard}} 
+  {{#if currentUser}} 
+  {{> testForm}} 
+  {{/if}}  
 </body>
 
 <template name="leaderboard">
-  <div class="ui list">
-    {{#each player}}
-    <div class="item player {{selectedClass}}">{{name}}: {{score}}</div>
-    {{/each}} 
+  <div class="ui container">
+    {{#sortable items=playersList animation="100" handle=".sortable-handle" ghostClass="sortable-ghost" options=playersListOptions}}
+    {{> player}}
+    {{/sortable}}
   </div>
-    {{#if selectedPlayer}}
-    <div class="ui buttons">
+  
+  {{#if selectedPlayer}}
+  <div class="ui buttons">
     <button class="ui button increment">+5</button>
     <button class="ui button decrement">-5</button>
     <button class="ui button removeplayer">delete</button>
-    </div>
-    The selected player is {{selectedPlayer.name}}
-    {{/if}}
+  </div>
+  The selected player is {{selectedPlayer.name}} 
+  {{/if}}
 </template>
 
 <template name="testForm">
   {{> quickForm collection="PlayersList" id="insertTestForm" type="insert"}}
+</template>
+
+<template name="player">
+  <div data-id="{{order}}" class="sortable-item">
+    <div class="sortable-handle {{selectedClass}} player ui item">{{name}}: {{score}}  order: {{order}}</div>
+  </div>
 </template>

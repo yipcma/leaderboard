@@ -11,12 +11,45 @@ PlayersList.attachSchema(new SimpleSchema({
   },
   createdBy: {
     type: String,
-    autoValue: function(){return this.userId},
-    autoform: {omit: true}
+    autoValue: function() {
+      return this.userId
+    },
+    autoform: {
+      omit: true
+    }
+  },
+  order: {
+    type: Number,
+    label: "Sorting",
+    optional: true,
+    autoform: {
+      omit: true
+    },
+    autoValue: function() {
+      if (this.isInsert) {
+        var lastSortIndex = PlayersList.find({}, {
+          sort: {
+            order: -1
+          },
+          limit: 1
+        });
+
+        if (lastSortIndex.count() > 0) {
+          return lastSortIndex.fetch()[0].order + 1;
+        }
+
+        return 1;
+      }
+      else {
+        return this.value;
+      }
+    }
   }
 }));
 
 if (Meteor.isServer) {
+  Sortable.collections = ["players"];
+
   Meteor.publish("thePlayers", function() {
     var currentId = this.userId;
     return PlayersList.find({
@@ -34,27 +67,22 @@ if (Meteor.isServer) {
     },
     remove: function(selectedPlayer) {
       var currentId = Meteor.userId();
-      PlayersList.remove({_id: selectedPlayer, createdBy: currentId});
+      PlayersList.remove({
+        _id: selectedPlayer,
+        createdBy: currentId
+      });
     }
   })
 }
 
 if (Meteor.isClient) {
   Meteor.startup(function() {
-  AutoForm.setDefaultTemplate("semanticUI");
-});
+    AutoForm.setDefaultTemplate("semanticUI");
+  });
 
   Meteor.subscribe("thePlayers");
 
   Template.leaderboard.helpers({
-    player: function() {
-      return PlayersList.find({}, {
-        sort: {
-          score: -1,
-          name: 1
-        }
-      });
-    },
     selectedClass: function() {
       var selectedPlayer = Session.get("selectedPlayer");
       var thisRow = this._id;
@@ -65,6 +93,25 @@ if (Meteor.isClient) {
     selectedPlayer: function() {
       var selectedPlayer = Session.get("selectedPlayer");
       return PlayersList.findOne(selectedPlayer);
+    },
+    playersList: function() {
+      return PlayersList.find({}, {
+        sort: {
+          order: 1
+        }
+      });
+    },
+    playersListOptions: {
+      group: {
+        name: 'playerDefinition',
+        put: true
+      },
+      // event handler for reordering attributes
+      onSort: function(event) {
+        console.log('Item %s went from #%d to #%d',
+          event.data.name, event.oldIndex, event.newIndex
+        );
+      }
     }
   });
 
