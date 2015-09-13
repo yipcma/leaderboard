@@ -12,7 +12,7 @@ PlayersList.attachSchema(new SimpleSchema({
   createdBy: {
     type: String,
     autoValue: function() {
-      return this.userId
+      return this.userId;
     },
     autoform: {
       omit: true
@@ -72,7 +72,7 @@ if (Meteor.isServer) {
         createdBy: currentId
       });
     }
-  })
+  });
 }
 
 if (Meteor.isClient) {
@@ -82,14 +82,17 @@ if (Meteor.isClient) {
 
   Meteor.subscribe("thePlayers");
 
-  Template.leaderboard.helpers({
+  Template.player.helpers({
     selectedClass: function() {
       var selectedPlayer = Session.get("selectedPlayer");
       var thisRow = this._id;
       if (selectedPlayer === thisRow) {
         return "selected";
       }
-    },
+    }
+  });
+
+  Template.leaderboard.helpers({
     selectedPlayer: function() {
       var selectedPlayer = Session.get("selectedPlayer");
       return PlayersList.findOne(selectedPlayer);
